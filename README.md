@@ -9,7 +9,7 @@ Sistema completo para cadastro e gerenciamento de usuários e eventos festivos, 
 ### Backend - C# .NET 8
 - **Framework**: ASP.NET Core Web API
 - **ORM**: Entity Framework Core
-- **Banco de Dados**: SQLite
+- **Banco de Dados**: SQL
 - **Autenticação**: Hash de senhas com BCrypt
 - **Upload**: Sistema de upload de imagens
 - **CORS**: Configurado para integração com frontend
