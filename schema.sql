@@ -1,0 +1,21 @@
+```sql
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY IDENTITY(1,1),
+    Username NVARCHAR(50) NOT NULL UNIQUE,
+    Email NVARCHAR(100) NOT NULL UNIQUE,
+    PasswordHash NVARCHAR(255) NOT NULL,
+    RegistrationDate DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE FestiveEvents (
+    EventID INT PRIMARY KEY IDENTITY(1,1),
+    EventName NVARCHAR(100) NOT NULL,
+    EventDate DATETIME NOT NULL,
+    EventAddress NVARCHAR(255) NOT NULL,
+    EventDescription NVARCHAR(MAX),
+    ImageURL NVARCHAR(255),
+    UserID INT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+```
+

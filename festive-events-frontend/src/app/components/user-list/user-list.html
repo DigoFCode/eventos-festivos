@@ -1,0 +1,81 @@
+<div class="user-list-container">
+  <mat-card class="header-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>people</mat-icon>
+        Gerenciamento de Usuários
+      </mat-card-title>
+      <mat-card-subtitle>
+        Visualize e gerencie todos os usuários do sistema
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" routerLink="/users/new">
+        <mat-icon>add</mat-icon>
+        Novo Usuário
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="table-card">
+    <div *ngIf="loading" class="loading-container">
+      <mat-spinner></mat-spinner>
+      <p>Carregando usuários...</p>
+    </div>
+
+    <div *ngIf="!loading">
+      <table mat-table [dataSource]="users" class="users-table">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef>Nome de Usuário</th>
+          <td mat-cell *matCellDef="let user">
+            <div class="user-info">
+              <mat-icon class="user-avatar">account_circle</mat-icon>
+              <span>{{ user.username }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="registration_date">
+          <th mat-header-cell *matHeaderCellDef>Data de Registro</th>
+          <td mat-cell *matCellDef="let user">{{ formatDate(user.registration_date!) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
+          <td mat-cell *matCellDef="let user">
+            <button mat-icon-button color="primary" [routerLink]="['/users/edit', user.id]" matTooltip="Editar">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteUser(user)" matTooltip="Excluir">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="user-row"></tr>
+      </table>
+
+      <div *ngIf="users.length === 0" class="no-data">
+        <mat-icon>people_outline</mat-icon>
+        <h3>Nenhum usuário encontrado</h3>
+        <p>Comece criando seu primeiro usuário</p>
+        <button mat-raised-button color="primary" routerLink="/users/new">
+          <mat-icon>add</mat-icon>
+          Criar Usuário
+        </button>
+      </div>
+    </div>
+  </mat-card>
+</div>
+

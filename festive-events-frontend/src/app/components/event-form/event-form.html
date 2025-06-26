@@ -1,0 +1,148 @@
+<div class="event-form-container">
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>{{ isEditMode ? 'edit' : 'event_note' }}</mat-icon>
+        {{ isEditMode ? 'Editar Evento' : 'Novo Evento Festivo' }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ isEditMode ? 'Atualize as informações do evento' : 'Preencha os dados para criar um novo evento festivo' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="loading" class="loading-container">
+        <mat-spinner></mat-spinner>
+        <p>Carregando dados do evento...</p>
+      </div>
+
+      <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+        <!-- Nome do Evento -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome do Evento</mat-label>
+            <input matInput formControlName="event_name" placeholder="Digite o nome do evento">
+            <mat-icon matSuffix>celebration</mat-icon>
+            <mat-error *ngIf="eventForm.get('event_name')?.invalid && eventForm.get('event_name')?.touched">
+              {{ getErrorMessage('event_name') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Data e Hora -->
+        <div class="form-row-group">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Data do Evento</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="event_date" placeholder="Selecione a data">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="eventForm.get('event_date')?.invalid && eventForm.get('event_date')?.touched">
+              Data é obrigatória
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Horário</mat-label>
+            <input matInput type="time" formControlName="event_time" placeholder="Selecione o horário">
+            <mat-icon matSuffix>schedule</mat-icon>
+            <mat-error *ngIf="eventForm.get('event_time')?.invalid && eventForm.get('event_time')?.touched">
+              Horário é obrigatório
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Endereço -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Endereço</mat-label>
+            <input matInput formControlName="event_address" placeholder="Digite o endereço completo do evento">
+            <mat-icon matSuffix>location_on</mat-icon>
+            <mat-error *ngIf="eventForm.get('event_address')?.invalid && eventForm.get('event_address')?.touched">
+              {{ getErrorMessage('event_address') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Descrição -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descrição (opcional)</mat-label>
+            <textarea matInput formControlName="event_description" rows="4" 
+                      placeholder="Descreva os detalhes do evento"></textarea>
+            <mat-icon matSuffix>description</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!-- Usuário Responsável -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Usuário Responsável</mat-label>
+            <mat-select formControlName="user_id" placeholder="Selecione o usuário responsável">
+              <mat-option *ngFor="let user of users" [value]="user.id">
+                {{ user.username }} ({{ user.email }})
+              </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="eventForm.get('user_id')?.invalid && eventForm.get('user_id')?.touched">
+              Usuário responsável é obrigatório
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Upload de Imagem -->
+        <div class="form-row">
+          <div class="image-upload-section">
+            <h3>
+              <mat-icon>image</mat-icon>
+              Imagem do Evento
+            </h3>
+            
+            <div class="image-preview-container" *ngIf="imagePreview || currentImageUrl">
+              <img [src]="imagePreview || currentImageUrl" alt="Preview" class="image-preview">
+              <button mat-icon-button color="warn" type="button" (click)="removeImage()" class="remove-image-btn">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+
+            <div class="upload-area" *ngIf="!imagePreview && !currentImageUrl">
+              <mat-icon>cloud_upload</mat-icon>
+              <p>Clique para selecionar uma imagem</p>
+              <small>Formatos aceitos: PNG, JPG, JPEG, GIF</small>
+            </div>
+
+            <input type="file" #fileInput (change)="onFileSelected($event)" 
+                   accept="image/*" style="display: none;">
+            
+            <div class="upload-actions">
+              <button mat-stroked-button type="button" (click)="fileInput.click()" 
+                      [disabled]="uploadingImage">
+                <mat-icon>attach_file</mat-icon>
+                {{ (imagePreview || currentImageUrl) ? 'Trocar Imagem' : 'Selecionar Imagem' }}
+              </button>
+              
+              <button mat-button type="button" (click)="removeImage()" 
+                      *ngIf="imagePreview || currentImageUrl">
+                <mat-icon>delete</mat-icon>
+                Remover
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button mat-button type="button" (click)="onCancel()" [disabled]="submitting || uploadingImage">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit" 
+                  [disabled]="eventForm.invalid || submitting || uploadingImage">
+            <mat-spinner diameter="20" *ngIf="submitting || uploadingImage"></mat-spinner>
+            <mat-icon *ngIf="!submitting && !uploadingImage">{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+            {{ (submitting || uploadingImage) ? 'Salvando...' : (isEditMode ? 'Atualizar' : 'Criar') }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+

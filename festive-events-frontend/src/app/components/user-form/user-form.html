@@ -1,0 +1,70 @@
+<div class="user-form-container">
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>{{ isEditMode ? 'edit' : 'person_add' }}</mat-icon>
+        {{ isEditMode ? 'Editar Usuário' : 'Novo Usuário' }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ isEditMode ? 'Atualize as informações do usuário' : 'Preencha os dados para criar um novo usuário' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="loading" class="loading-container">
+        <mat-spinner></mat-spinner>
+        <p>Carregando dados do usuário...</p>
+      </div>
+
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome de Usuário</mat-label>
+            <input matInput formControlName="username" placeholder="Digite o nome de usuário">
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched">
+              {{ getErrorMessage('username') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="Digite o email">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+              {{ getErrorMessage('email') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ isEditMode ? 'Nova Senha (opcional)' : 'Senha' }}</mat-label>
+            <input matInput type="password" formControlName="password" 
+                   [placeholder]="isEditMode ? 'Deixe em branco para manter a senha atual' : 'Digite a senha'">
+            <mat-icon matSuffix>lock</mat-icon>
+            <mat-error *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched">
+              {{ getErrorMessage('password') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button mat-button type="button" (click)="onCancel()" [disabled]="submitting">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit" 
+                  [disabled]="userForm.invalid || submitting">
+            <mat-spinner diameter="20" *ngIf="submitting"></mat-spinner>
+            <mat-icon *ngIf="!submitting">{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+            {{ submitting ? 'Salvando...' : (isEditMode ? 'Atualizar' : 'Criar') }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+

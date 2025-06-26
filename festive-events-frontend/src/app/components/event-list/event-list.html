@@ -1,0 +1,109 @@
+<div class="event-list-container">
+  <mat-card class="header-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>event</mat-icon>
+        Gerenciamento de Eventos Festivos
+      </mat-card-title>
+      <mat-card-subtitle>
+        Visualize e gerencie todos os eventos festivos do sistema
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" routerLink="/events/new">
+        <mat-icon>add</mat-icon>
+        Novo Evento
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="table-card">
+    <div *ngIf="loading" class="loading-container">
+      <mat-spinner></mat-spinner>
+      <p>Carregando eventos...</p>
+    </div>
+
+    <div *ngIf="!loading">
+      <table mat-table [dataSource]="events" class="events-table">
+        <ng-container matColumnDef="image">
+          <th mat-header-cell *matHeaderCellDef>Imagem</th>
+          <td mat-cell *matCellDef="let event">
+            <div class="event-image">
+              <img *ngIf="event.image_url" [src]="getImageUrl(event.image_url)" 
+                   [alt]="event.event_name" class="event-thumbnail">
+              <mat-icon *ngIf="!event.image_url" class="no-image-icon">image</mat-icon>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="event_name">
+          <th mat-header-cell *matHeaderCellDef>Nome do Evento</th>
+          <td mat-cell *matCellDef="let event">
+            <div class="event-info">
+              <h4>{{ event.event_name }}</h4>
+              <p *ngIf="event.event_description">{{ event.event_description | slice:0:100 }}{{ event.event_description.length > 100 ? '...' : '' }}</p>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="event_date">
+          <th mat-header-cell *matHeaderCellDef>Data e Hora</th>
+          <td mat-cell *matCellDef="let event">
+            <div class="date-info">
+              <mat-icon>schedule</mat-icon>
+              <span>{{ formatDate(event.event_date) }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="event_address">
+          <th mat-header-cell *matHeaderCellDef>Endereço</th>
+          <td mat-cell *matCellDef="let event">
+            <div class="address-info">
+              <mat-icon>location_on</mat-icon>
+              <span>{{ event.event_address }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef>Criado por</th>
+          <td mat-cell *matCellDef="let event">
+            <mat-chip-set *ngIf="event.user">
+              <mat-chip>
+                <mat-icon matChipAvatar>person</mat-icon>
+                {{ event.user.username }}
+              </mat-chip>
+            </mat-chip-set>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
+          <td mat-cell *matCellDef="let event">
+            <button mat-icon-button color="primary" [routerLink]="['/events/edit', event.id]" matTooltip="Editar">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteEvent(event)" matTooltip="Excluir">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="event-row"></tr>
+      </table>
+
+      <div *ngIf="events.length === 0" class="no-data">
+        <mat-icon>event_note</mat-icon>
+        <h3>Nenhum evento encontrado</h3>
+        <p>Comece criando seu primeiro evento festivo</p>
+        <button mat-raised-button color="primary" routerLink="/events/new">
+          <mat-icon>add</mat-icon>
+          Criar Evento
+        </button>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
