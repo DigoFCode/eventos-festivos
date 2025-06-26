@@ -9,7 +9,7 @@ Sistema completo para cadastro e gerenciamento de usuários e eventos festivos, 
 ### Backend - C# .NET 8
 - **Framework**: ASP.NET Core Web API
 - **ORM**: Entity Framework Core
-- **Banco de Dados**: SQLite
+- **Banco de Dados**: SQL
 - **Autenticação**: Hash de senhas com BCrypt
 - **Upload**: Sistema de upload de imagens
 - **CORS**: Configurado para integração com frontend
@@ -48,34 +48,6 @@ Sistema completo para cadastro e gerenciamento de usuários e eventos festivos, 
 - ✅ Formulários com validação visual
 - ✅ Preview de imagens no upload
 
-## 🗄️ Estrutura do Banco de Dados
-
-### Tabela Users
-```sql
-CREATE TABLE "Users" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Users" PRIMARY KEY AUTOINCREMENT,
-    "Username" TEXT NOT NULL,
-    "Email" TEXT NOT NULL,
-    "PasswordHash" TEXT NOT NULL,
-    "CreatedAt" TEXT NOT NULL DEFAULT (datetime('now'))
-);
-```
-
-### Tabela FestiveEvents
-```sql
-CREATE TABLE "FestiveEvents" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_FestiveEvents" PRIMARY KEY AUTOINCREMENT,
-    "EventName" TEXT NOT NULL,
-    "EventDate" TEXT NOT NULL,
-    "EventAddress" TEXT NOT NULL,
-    "EventDescription" TEXT NULL,
-    "ImageUrl" TEXT NULL,
-    "UserId" INTEGER NOT NULL,
-    "CreatedAt" TEXT NOT NULL DEFAULT (datetime('now')),
-    CONSTRAINT "FK_FestiveEvents_Users_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("Id") ON DELETE CASCADE
-);
-```
-
 ## 🚀 Como Executar o Projeto
 
 ### Pré-requisitos
@@ -98,38 +70,6 @@ npm install
 ng serve
 ```
 O frontend estará disponível em: `http://localhost:4200`
-
-## 📁 Estrutura do Projeto
-
-```
-projeto/
-├── FestiveEventsApi/              # Backend C#
-│   ├── Controllers/               # Controladores da API
-│   │   ├── UsersController.cs
-│   │   ├── EventsController.cs
-│   │   └── UploadController.cs
-│   ├── Models/                    # Modelos de dados
-│   │   └── Models.cs
-│   ├── Data/                      # Contexto do banco
-│   │   └── ApplicationDbContext.cs
-│   ├── DTOs/                      # Data Transfer Objects
-│   │   └── DTOs.cs
-│   ├── uploads/                   # Diretório de imagens
-│   └── Program.cs                 # Configuração da aplicação
-├── festive-events-frontend/       # Frontend Angular
-│   ├── src/app/
-│   │   ├── components/            # Componentes da aplicação
-│   │   │   ├── user-list/
-│   │   │   ├── user-form/
-│   │   │   ├── event-list/
-│   │   │   └── event-form/
-│   │   ├── services/              # Serviços de API
-│   │   │   └── api.service.ts
-│   │   ├── models/                # Interfaces TypeScript
-│   │   │   └── interfaces.ts
-│   │   └── app.component.*        # Componente principal
-└── schema.sql                     # Scripts SQL do banco
-```
 
 ## 🔧 Tecnologias Utilizadas
 
@@ -201,6 +141,4 @@ Para dúvidas ou problemas:
 3. Execute os comandos na ordem correta (backend primeiro, depois frontend)
 
 ---
-
-**Desenvolvido com ❤️ usando C# .NET e Angular**
 
