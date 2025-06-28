@@ -10,7 +10,7 @@ Sistema completo para cadastro e gerenciamento de usuários e eventos festivos, 
 - **Framework**: ASP.NET Core Web API
 - **ORM**: Entity Framework Core
 - **Banco de Dados**: SQL
-- **Autenticação**: Hash de senhas com BCrypt
+- **Autenticação**: Hash de senhas com SHA-256
 - **Upload**: Sistema de upload de imagens
 - **CORS**: Configurado para integração com frontend
 
@@ -78,7 +78,7 @@ O frontend estará disponível em: `http://localhost:4200`
 - **ASP.NET Core**: Web API
 - **Entity Framework Core**: ORM
 - **SQLite**: Banco de dados
-- **BCrypt**: Hash de senhas
+- **SHA-256**: Hash de senhas
 - **CORS**: Cross-Origin Resource Sharing
 
 ### Frontend
@@ -117,7 +117,7 @@ O frontend estará disponível em: `http://localhost:4200`
 
 ## 🔒 Segurança
 
-- **Hash de Senhas**: Implementado com BCrypt
+- **Hash de Senhas**: Implementado com SHA-256
 - **Validações**: Frontend e backend
 - **CORS**: Configurado adequadamente
 - **SQL Injection**: Prevenido pelo Entity Framework
