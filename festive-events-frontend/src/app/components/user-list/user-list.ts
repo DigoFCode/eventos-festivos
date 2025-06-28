@@ -26,7 +26,7 @@ import { User } from '../../models/interfaces';
     MatProgressSpinnerModule
   ],
   templateUrl: './user-list.html',
-  styleUrl: './user-list.scss'
+  styleUrls: ['./user-list.scss']
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];

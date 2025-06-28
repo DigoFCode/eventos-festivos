@@ -26,7 +26,7 @@ import { FestiveEvent } from '../../models/interfaces';
     MatProgressSpinnerModule
   ],
   templateUrl: './event-list.html',
-  styleUrl: './event-list.scss'
+  styleUrls: ['./event-list.scss']
 })
 export class EventListComponent implements OnInit {
   events: FestiveEvent[] = [];

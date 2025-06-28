@@ -27,7 +27,7 @@ import { User } from '../../models/interfaces';
     MatProgressSpinnerModule
   ],
   templateUrl: './user-form.html',
-  styleUrl: './user-form.scss'
+  styleUrls: ['./user-form.scss']
 })
 export class UserFormComponent implements OnInit {
   userForm: FormGroup;
