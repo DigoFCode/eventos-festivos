@@ -26,7 +26,7 @@ import { ApiService } from '../../services/api';
     MatProgressSpinnerModule
   ],
   templateUrl: './login.html',
-  styleUrl: './login.scss'
+  styleUrls: ['./login.scss']
 })
 export class LoginComponent {
   loginForm: FormGroup;

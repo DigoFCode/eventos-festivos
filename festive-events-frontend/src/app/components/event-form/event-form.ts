@@ -33,7 +33,7 @@ import { User, FestiveEvent } from '../../models/interfaces';
     MatProgressSpinnerModule
   ],
   templateUrl: './event-form.html',
-  styleUrl: './event-form.scss'
+  styleUrls: ['./event-form.scss']
 })
 export class EventFormComponent implements OnInit {
   eventForm: FormGroup;
