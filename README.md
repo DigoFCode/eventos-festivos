@@ -9,12 +9,12 @@ Sistema completo para cadastro e gerenciamento de usuários e eventos festivos, 
 ### Backend - C# .NET 8
 - **Framework**: ASP.NET Core Web API
 - **ORM**: Entity Framework Core
-- **Banco de Dados**: SQL
+- **Banco de Dados**: SQL Server
 - **Autenticação**: Hash de senhas com SHA-256
 - **Upload**: Sistema de upload de imagens
 - **CORS**: Configurado para integração com frontend
 
-### Frontend - Angular 18
+### Frontend - Angular 20
 - **Framework**: Angular com TypeScript
 - **UI Components**: Angular Material
 - **Estilização**: SCSS com design gradiente moderno
@@ -52,7 +52,7 @@ Sistema completo para cadastro e gerenciamento de usuários e eventos festivos, 
 
 ### Pré-requisitos
 - .NET 8 SDK
-- Node.js 18+
+- Node.js 20+
 - Angular CLI
 
 ### Backend (C#)
@@ -77,12 +77,12 @@ O frontend estará disponível em: `http://localhost:4200`
 - **C# .NET 8**: Framework principal
 - **ASP.NET Core**: Web API
 - **Entity Framework Core**: ORM
-- **SQLite**: Banco de dados
+- **SQL Server**: Banco de dados
 - **SHA-256**: Hash de senhas
 - **CORS**: Cross-Origin Resource Sharing
 
 ### Frontend
-- **Angular 18**: Framework frontend
+- **Angular 20**: Framework frontend
 - **TypeScript**: Linguagem de programação
 - **Angular Material**: Componentes UI
 - **SCSS**: Pré-processador CSS
@@ -111,7 +111,7 @@ O frontend estará disponível em: `http://localhost:4200`
 - ✅ Backend C# funcionando na porta 5213
 - ✅ Frontend Angular funcionando na porta 4200
 - ✅ Comunicação entre frontend e backend
-- ✅ Banco de dados SQLite criado automaticamente
+- ✅ Banco de dados SQL Server criado automaticamente
 - ✅ CRUD de usuários operacional
 - ✅ Interface responsiva e moderna
 
