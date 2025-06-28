@@ -7,7 +7,9 @@ import { User, FestiveEvent } from '../models/interfaces';
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'http://localhost:5000/api';
+  // Porta padrao definida no backend (launchSettings.json)
+  // README tambem referencia http://localhost:5213
+  private baseUrl = 'http://localhost:5213/api';
 
   constructor(private http: HttpClient) { }
 
